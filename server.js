@@ -15,6 +15,7 @@ function sendFile(response, filePath, fileContents) {
     200,
     {"content-type": mime.lookup(path.basename(filePath))}
   );
+  console.log('Serving file :' + filePath);
   response.end(fileContents);
 }
 
@@ -41,7 +42,8 @@ function serveStatic(response, cache, absPath) {
 
 var server = http.createServer(function (request, reponse){
   var filePath = false;
-  if(request.url = '/') {
+  console.log('URL:' + request.url);
+  if(request.url == '/') {
     filePath = 'public/index.html';
   } else {
     filePath = 'public' + request.url;
