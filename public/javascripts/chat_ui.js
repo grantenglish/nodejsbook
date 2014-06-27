@@ -16,7 +16,7 @@ function processUserInput(chatApp, socket){
       $('#messages').append(divSystemContentElement(systemMessage));
     }
   } else {
-    chatApp.sendMesage($('#room').text(),message);
+    chatApp.sendMessage($('#room').text(),message);
     $('#messages').append(divEscapedContentElement(message));
     $('#messages').scrollTop($('#messages').prop('scrollHeight'));
   }
@@ -24,6 +24,7 @@ function processUserInput(chatApp, socket){
 };
 
 var socket = io.connect();
+
 $(document).ready(function(){
   var chatApp = new Chat(socket);
 
@@ -38,16 +39,16 @@ $(document).ready(function(){
   });
 
   socket.on('joinResult', function(result){
-    $(#room).text(result.room);
-    $(#messages).append(divSystemContentElement('Room changed.'));
+    $('#room').text(result.room);
+    $('#messages').append(divSystemContentElement('Room changed.'));
   });
 
   socket.on('message', function(message){
-    var newElement = $(<div></div).text(message.text);
+    var newElement = $('<div></div').text(message.text);
     $('#messages').append(newElement);
   });
 
-  socket.on('rooms' function(rooms){
+  socket.on('rooms', function(rooms){
     $('#room-list').empty();
     for(var room in rooms){
       room = room.substring(1,room.length);
@@ -58,7 +59,7 @@ $(document).ready(function(){
 
     $('#room-list div').click(function(){
       chatApp.processCommand('/join ' + $(this).text());
-      $(#send-message).focus();
+      $('#send-message').focus();
     });
   });
 
@@ -68,6 +69,7 @@ $(document).ready(function(){
 
   $('#send-form').submit(function(){
     processUserInput(chatApp, socket);
+    console.log('Submit Processed')
     return false;
   });
 })

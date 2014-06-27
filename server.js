@@ -42,7 +42,7 @@ function serveStatic(response, cache, absPath) {
 var server = http.createServer(function (request, reponse){
   var filePath = false;
   console.log('URL:' + request.url);
-  if(request.url == '/') {
+  if(request.url == '/' || request.url == '/?') {
     filePath = 'public/index.html';
   } else {
     filePath = 'public' + request.url;
@@ -55,5 +55,5 @@ server.listen(3000, function (){
   console.log(' Server listening on 3000');
 });
 
-var chatServer = require('socket.io');
+var chatServer = require('./lib/chat_server.js');
 chatServer.listen(server);
